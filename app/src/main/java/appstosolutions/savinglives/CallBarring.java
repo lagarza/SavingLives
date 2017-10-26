@@ -19,17 +19,31 @@ public class CallBarring extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // If, the received action is not a type of "Phone_State", ignore it
-       try{
 
-       }catch (Exception e) {
-           Log.e("ExceptionCallBarring: ", e.getMessage());
-       }
+        if (MainActivity.Escucha == 2) {
+            try {
+                ITelephony telephonyService;
+                TelephonyManager telephony = (TelephonyManager)
+                        context.getSystemService(Context.TELEPHONY_SERVICE);
+                try {
+                    Class c = Class.forName(telephony.getClass().getName());
+                    Method m = c.getDeclaredMethod("getITelephony");
+                    m.setAccessible(true);
+                    telephonyService = (ITelephony) m.invoke(telephony);
+                    telephonyService.endCall();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                Log.e("ExceptionCallBarring: ", e.getMessage());
+            }
+        }
     }
-
     // Method to disconnect phone automatically and programmatically
     // Keep this method as it is
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    private void disconnectPhoneItelephony(Context context) {
+   /*  @SuppressWarnings({"rawtypes", "unchecked"})
+   private void disconnectPhoneItelephony(Context context) {
         ITelephony telephonyService;
         TelephonyManager telephony = (TelephonyManager)
                 context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -42,5 +56,5 @@ public class CallBarring extends BroadcastReceiver {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    } */
 }

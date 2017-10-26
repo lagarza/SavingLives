@@ -19,34 +19,33 @@ public class CallReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, Intent intent) {
+        if(MainActivity.Escucha==2) {
+            try {
 
-        try {
+                TelephonyManager telephony = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                telephony.listen(new PhoneStateListener() {
+                    @Override
+                    public void onCallStateChanged(int state, String incomingNumber) {
+                        super.onCallStateChanged(state, incomingNumber);
+                        // System.out.println("incomingNumber : " + incomingNumber);
+                        //Toast.makeText(context, incomingNumber, Toast.LENGTH_LONG).show();
 
-            TelephonyManager telephony = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            telephony.listen(new PhoneStateListener() {
-                @Override
-                public void onCallStateChanged(int state, String incomingNumber) {
-                    super.onCallStateChanged(state, incomingNumber);
-                    // System.out.println("incomingNumber : " + incomingNumber);
-                    //Toast.makeText(context, incomingNumber, Toast.LENGTH_LONG).show();
+                        Log.e("*****phoneNumber:", incomingNumber);
+                        NumberPhonbe = incomingNumber;
 
-                    Log.e("*****phoneNumber:", incomingNumber);
-                    NumberPhonbe = incomingNumber;
+                        if (contador == 0) {
+                            SmsManager smsManager = SmsManager.getDefault();
+                            smsManager.sendTextMessage(incomingNumber, null, "2El contacto con el que te intentas comunicar está salvando vidas", null, null);
+                        }
 
-                    if (contador == 0) {
-                        SmsManager smsManager = SmsManager.getDefault();
-                        smsManager.sendTextMessage(incomingNumber, null, "2El contacto con el que te intentas comunicar está salvando vidas", null, null);
+                        contador++;
+
                     }
+                }, PhoneStateListener.LISTEN_CALL_STATE);
 
-                    contador++;
-
-                }
-            }, PhoneStateListener.LISTEN_CALL_STATE);
-
-        } catch (Exception e) {
-            Log.e("ExceptionCallReceiver: ", e.getMessage());
+            } catch (Exception e) {
+                Log.e("ExceptionCallReceiver: ", e.getMessage());
+            }
         }
-
-
     }
 }

@@ -19,7 +19,7 @@ public class SMSReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        if(MainActivity.Escucha==2) {
         try {
 
             Bundle b = intent.getExtras();
@@ -44,7 +44,7 @@ public class SMSReceiver extends BroadcastReceiver {
         }catch (Exception e){
             Log.e("ExceptionSMSReceiver: ", e.getMessage());
         }
-
+        }
     }
 }
 

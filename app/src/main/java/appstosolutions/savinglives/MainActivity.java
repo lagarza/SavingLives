@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener  
 
     MediaPlayer mp;
     private Button boton_activar;
-
+    public static  int Escucha=1;
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
 
 
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener  
 
             findViewById(R.id.Fondoblanco).setVisibility(View.INVISIBLE);
             findViewById(R.id.button).setBackground(getDrawable(R.drawable.corazon_invertido));
+            Escucha=2;
         } else {
             Animation slideUpIn = AnimationUtils.loadAnimation(MainActivity.this, R.anim.scale);
 
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener  
 
             findViewById(R.id.Fondoblanco).setVisibility(View.VISIBLE);
             findViewById(R.id.button).setBackground(getDrawable(R.drawable.corazon_1));
-
+            Escucha=1;
         }
         MediaPlayer mp = MediaPlayer.create(this, R.raw.latido);
         mp.start();
